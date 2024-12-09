@@ -1,0 +1,590 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Xenon language documentation</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="requirements.html"><strong aria-hidden="true">1.</strong> Requirements</a></li><li class="chapter-item expanded "><a href="comparative_study.html"><strong aria-hidden="true">2.</strong> Comparative Study</a></li><li class="chapter-item expanded "><a href="syntax.html"><strong aria-hidden="true">3.</strong> Syntax</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Xenon language documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="requirements"><a class="header" href="#requirements">Requirements</a></h1>
+<p>This document describes the requirements for the project.</p>
+<pre class="mermaid">graph TD;
+A--&gt;B;
+A--&gt;C;
+B--&gt;D;
+C--&gt;D;
+</pre>
+<h2 id="software-versions"><a class="header" href="#software-versions">Software Versions</a></h2>
+<ul>
+<li>GHC: 9.6.6</li>
+<li>HLS: 2.9.0.1</li>
+<li>Cabal: 3.10.3.0</li>
+<li>Stack: 3.1.1</li>
+</ul>
+<h2 id="table-of-contents---system-requirements"><a class="header" href="#table-of-contents---system-requirements">Table of Contents - System Requirements</a></h2>
+<ul>
+<li>Linux
+<ul>
+<li><a href="requirements.html#linux-debian">Debian</a></li>
+<li><a href="requirements.html#linux-ubuntu">Ubuntu</a></li>
+<li><a href="requirements.html#linux-fedora">Fedora</a></li>
+<li><a href="requirements.html#linux-centos">CentOS</a></li>
+<li><a href="requirements.html#linux-alpine">Alpine</a></li>
+<li><a href="requirements.html#linux-generic">(generic)</a></li>
+</ul>
+</li>
+<li><a href="requirements.html#freebsd">FreeBSD</a></li>
+<li><a href="requirements.html#windows">Windows</a></li>
+</ul>
+<h2 id="linux-debian"><a class="header" href="#linux-debian">Linux Debian</a></h2>
+<p>The following distro packages are required:
+<code>build-essential curl libffi-dev libffi6 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5</code>
+Version &gt;= 11 &amp;&amp; &lt;= 12</p>
+<p>The following distro packages are required: <code>build-essential curl libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5</code>
+Version &gt;= 12</p>
+<p>The following distro packages are required: <code>build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5</code></p>
+<h2 id="linux-ubuntu"><a class="header" href="#linux-ubuntu">Linux Ubuntu</a></h2>
+<p>The following distro packages are required: <code>build-essential curl libffi-dev libffi6 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5</code>
+Version &gt;= 20.04 &amp;&amp; &lt; 20.10</p>
+<p>The following distro packages are required: <code>build-essential curl libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5</code>
+Version &gt;= 20.10 &amp;&amp; &lt; 23</p>
+<p>The following distro packages are required: <code>build-essential curl libffi-dev libffi8ubuntu1 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5</code>
+Version &gt;= 23</p>
+<p>The following distro packages are required: <code>build-essential curl libffi-dev libffi8ubuntu1 libgmp-dev libgmp10 libncurses-dev</code></p>
+<h2 id="linux-fedora"><a class="header" href="#linux-fedora">Linux Fedora</a></h2>
+<p>The following distro packages are required: <code>gcc gcc-c++ gmp gmp-devel make ncurses ncurses-compat-libs xz perl</code></p>
+<h2 id="linux-centos"><a class="header" href="#linux-centos">Linux CentOS</a></h2>
+<p>The following distro packages are required: <code>gcc gcc-c++ gmp gmp-devel make ncurses ncurses-compat-libs xz perl</code>
+Version &gt;= 7 &amp;&amp; &lt; 8</p>
+<p>The following distro packages are required: <code>gcc gcc-c++ gmp gmp-devel make ncurses xz perl</code></p>
+<h2 id="linux-alpine"><a class="header" href="#linux-alpine">Linux Alpine</a></h2>
+<p>The following distro packages are required: <code>binutils-gold curl gcc g++ gmp-dev libc-dev libffi-dev make musl-dev ncurses-dev perl tar xz</code></p>
+<h2 id="linux-generic"><a class="header" href="#linux-generic">Linux (generic)</a></h2>
+<p>You need the following packages: <code>curl g++ gcc gmp make ncurses realpath xz-utils</code>. Consult your distro documentation on the exact names of those packages.</p>
+<h2 id="freebsd"><a class="header" href="#freebsd">FreeBSD</a></h2>
+<p>The following distro packages are required: <code>curl gcc gmp gmake ncurses perl5 libffi libiconv</code></p>
+<h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
+<p>On Windows, <code>msys2</code> should already have been set up during the installation, so most users should just proceed. If you are installing manually, make sure to have a working mingw64 toolchain and shell.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="comparative-study---glados-project"><a class="header" href="#comparative-study---glados-project">Comparative Study - Glados Project</a></h1>
+<p>This study evaluates the decisions made for the <strong>Glados Project</strong>, where we aim to design and implement a custom imperative programming language using <strong>Haskell</strong>. This language will be compiled into <strong>WebAssembly</strong> (Wasm) for efficient execution. The study explores the reasons for selecting <strong>Haskell</strong>, the imperative programming paradigm, and WebAssembly as the compilation target. We also compare tools, approaches, and technologies in parsing, runtime, and language design, emphasizing performance, scalability, and maintainability.</p>
+<hr />
+<h2 id="1-programming-language-for-development-haskell"><a class="header" href="#1-programming-language-for-development-haskell">1. <strong>Programming Language for Development: Haskell</strong></a></h2>
+<h3 id="relevance-and-justification"><a class="header" href="#relevance-and-justification">Relevance and Justification</a></h3>
+<p>Haskell was chosen as the development language due to its powerful capabilities for constructing <strong>parsers</strong>, <strong>interpreters</strong>, and <strong>compilers</strong>. Its functional nature and abstractions enable the development of highly modular and maintainable codebases.</p>
+<ul>
+<li>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Strong support for <strong>parsing libraries</strong> like <strong>Parsec</strong> and <strong>Megaparsec</strong>, simplifying grammar and syntax design.</li>
+<li>Immutability and <strong>pure functional programming</strong> paradigms facilitate reasoning about program correctness.</li>
+<li>Rich type system and <strong>algebraic data types</strong> (ADTs) enable safe and clear representation of language constructs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Steep learning curve for developers unfamiliar with functional programming.</li>
+<li>Runtime performance of Haskell programs might lag behind C++ for specific tasks; however, its suitability for compilation pipeline development outweighs this limitation.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>Rust</strong>: While offering excellent performance and memory safety, Rust's low-level nature can make the development of parsers and compilers less expressive compared to Haskell.</li>
+<li><strong>Python</strong>: Easy to use for prototyping compilers but lacks the performance and static type-checking needed for complex language implementations.</li>
+</ul>
+<hr />
+<h2 id="2-programming-paradigm-imperative"><a class="header" href="#2-programming-paradigm-imperative">2. <strong>Programming Paradigm: Imperative</strong></a></h2>
+<h3 id="relevance-and-justification-1"><a class="header" href="#relevance-and-justification-1">Relevance and Justification</a></h3>
+<p>While Haskell is a functional language, we have chosen to design <strong>Glados</strong> as an <strong>imperative programming language</strong>, reflecting the needs of developers accustomed to control-flow structures and mutable state.</p>
+<ul>
+<li>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Familiarity for most developers due to the prevalence of imperative languages like <strong>C</strong>, <strong>Java</strong>, and <strong>Python</strong>.</li>
+<li>Straightforward translation into <strong>WebAssembly</strong>, which is inherently imperative.</li>
+<li>Simplifies implementation of state-based computations and control-flow mechanisms like loops and conditionals.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Imperative languages require careful management of mutable state, which may introduce bugs like race conditions or unexpected side effects.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>Functional Languages</strong>: While offering declarative programming benefits, functional languages introduce a steeper learning curve for imperative-oriented developers.</li>
+<li><strong>Object-Oriented Languages</strong>: Overhead introduced by class hierarchies and object management is unnecessary for the lightweight, performance-oriented design of Glados.</li>
+</ul>
+<hr />
+<h2 id="3-compilation-target-webassembly-wasm"><a class="header" href="#3-compilation-target-webassembly-wasm">3. <strong>Compilation Target: WebAssembly (Wasm)</strong></a></h2>
+<h3 id="relevance-and-justification-2"><a class="header" href="#relevance-and-justification-2">Relevance and Justification</a></h3>
+<p>WebAssembly was selected as the compilation target due to its cross-platform compatibility, lightweight binary format, and growing adoption for high-performance web and server-side applications.</p>
+<ul>
+<li>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li><strong>Performance</strong>: WebAssembly offers near-native execution speed, making it ideal for computationally intensive programs.</li>
+<li><strong>Portability</strong>: Wasm can be executed in web browsers and standalone runtimes, enhancing deployment flexibility.</li>
+<li><strong>Security</strong>: Sandboxed execution model prevents unauthorized access to the host environment.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Limited debugging tools compared to traditional binaries.</li>
+<li>Learning curve for developers new to Wasm bytecode.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>LLVM IR</strong>: Offers high-performance backend support and optimizations but lacks the portability and security guarantees of WebAssembly.</li>
+<li><strong>JavaScript</strong>: While highly portable, its performance and scalability fall short for resource-intensive applications.</li>
+</ul>
+<hr />
+<h2 id="4-parsing-approach"><a class="header" href="#4-parsing-approach">4. <strong>Parsing Approach</strong></a></h2>
+<h3 id="relevance-and-justification-3"><a class="header" href="#relevance-and-justification-3">Relevance and Justification</a></h3>
+<p>Efficient parsing is critical to language design. For <strong>Glados</strong>, we are using <strong>Megaparsec</strong>, a Haskell library for constructing parsers.</p>
+<ul>
+<li>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li>Combines <strong>composability</strong> and <strong>expressiveness</strong> with strong error reporting.</li>
+<li>Haskell’s <strong>monadic parsing</strong> simplifies handling complex grammar.</li>
+<li>Modular design allows easy addition or modification of language constructs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Parsing performance might not match low-level tools like <strong>ANTLR</strong>, but the trade-off is acceptable given Haskell’s strengths in parser design.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>ANTLR</strong>: While high-performing and widely used, its Java-centric ecosystem can be less intuitive for Haskell developers.</li>
+<li><strong>Flex/Bison</strong>: Suitable for low-level parser generation but lacks the abstraction and readability of Haskell-based solutions.</li>
+</ul>
+<hr />
+<h2 id="5-runtime-architecture"><a class="header" href="#5-runtime-architecture">5. <strong>Runtime Architecture</strong></a></h2>
+<h3 id="relevance-and-justification-4"><a class="header" href="#relevance-and-justification-4">Relevance and Justification</a></h3>
+<p>The Glados runtime is designed to operate within a <strong>WebAssembly-compatible virtual machine</strong> for portability and performance.</p>
+<ul>
+<li>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li><strong>Lightweight</strong>: Wasm binaries are optimized for fast startup and low resource usage.</li>
+<li><strong>Cross-platform</strong>: Ensures compatibility across web, mobile, and server environments.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Developing custom runtime features (e.g., garbage collection) requires additional effort.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>Custom Virtual Machine</strong>: Provides more control but introduces significant development overhead compared to Wasm-based solutions.</li>
+<li><strong>Native Executables</strong>: Lack the portability and sandboxing advantages of Wasm.</li>
+</ul>
+<hr />
+<h2 id="6-development-tools"><a class="header" href="#6-development-tools">6. <strong>Development Tools</strong></a></h2>
+<h3 id="relevance-and-justification-5"><a class="header" href="#relevance-and-justification-5">Relevance and Justification</a></h3>
+<p>For development, we chose tools that complement Haskell's ecosystem and facilitate collaboration, testing, and documentation.</p>
+<ul>
+<li><strong>GitHub</strong>: Version control and CI/CD integration.</li>
+<li><strong>Stack</strong>: Simplifies dependency management and builds in Haskell.</li>
+<li><strong>Visual Studio Code</strong>: Primary editor, enhanced with Haskell plugins.</li>
+</ul>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>GitLab</strong>: Similar to GitHub but less widely adopted for open-source Haskell projects.</li>
+<li><strong>Cabal</strong>: Provides flexibility but lacks the simplicity and automation of Stack.</li>
+</ul>
+<hr />
+<h2 id="7-documentation"><a class="header" href="#7-documentation">7. <strong>Documentation</strong></a></h2>
+<h3 id="relevance-and-justification-6"><a class="header" href="#relevance-and-justification-6">Relevance and Justification</a></h3>
+<p>We prioritize interactive, markdown-based documentation to ensure clarity and maintainability. <strong>mdBook</strong> was chosen for its seamless integration with modern development workflows.</p>
+<p><strong>Comparative Study</strong>:</p>
+<ul>
+<li><strong>Sphinx</strong>: Offers advanced documentation features but has a steeper learning curve.</li>
+<li><strong>Doxygen</strong>: Excellent for API documentation but less effective for general-purpose guides.</li>
+</ul>
+<hr />
+<h2 id="8-testing-strategy-stack-with-unit-tests"><a class="header" href="#8-testing-strategy-stack-with-unit-tests">8. <strong>Testing Strategy: Stack with Unit Tests</strong></a></h2>
+<h3 id="relevance-and-justification-7"><a class="header" href="#relevance-and-justification-7">Relevance and Justification</a></h3>
+<p>Testing is a cornerstone of ensuring the correctness, stability, and maintainability of the Glados programming language. We have chosen <strong>Stack</strong>, a Haskell build tool, to manage our testing framework. Stack integrates seamlessly with Haskell's ecosystem and supports automated <strong>unit testing</strong>.</p>
+<ul>
+<li>
+<p><strong>Pros</strong>:</p>
+<ul>
+<li><strong>Integration with Stack</strong>: Simplifies test suite setup and execution.</li>
+<li><strong>Automation</strong>: Enables continuous integration pipelines with GitHub Actions, ensuring code changes do not introduce regressions.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cons</strong>:</p>
+<ul>
+<li>Writing comprehensive test cases can be time-consuming, particularly for complex grammar and edge cases in the language design.</li>
+</ul>
+</li>
+</ul>
+<h3 id="testing-methodology"><a class="header" href="#testing-methodology">Testing Methodology</a></h3>
+<ol>
+<li>
+<p><strong>Unit Tests</strong>:</p>
+<ul>
+<li>Focus on testing individual components like the parser, AST transformations, and WebAssembly generation.</li>
+<li>Example: Ensuring that specific syntactic constructs are correctly parsed into the corresponding AST nodes.</li>
+</ul>
+</li>
+<li>
+<p><strong>End-to-End Tests</strong>:</p>
+<ul>
+<li>Verify that complete programs written in Glados compile correctly to WebAssembly and execute as intended.</li>
+<li>Example: A Glados program performing arithmetic should produce the correct output in a WebAssembly runtime.</li>
+</ul>
+</li>
+<li>
+<p><strong>Property-Based Testing</strong>:</p>
+<ul>
+<li>Tools like <strong>QuickCheck</strong> are used to test properties of language constructs.</li>
+<li>Example: Testing that the order of arithmetic operations respects operator precedence.</li>
+</ul>
+</li>
+</ol>
+<h3 id="comparative-study"><a class="header" href="#comparative-study">Comparative Study</a></h3>
+<ul>
+<li>
+<p><strong>Stack</strong>:</p>
+<ul>
+<li>Provides native integration with Haskell’s testing libraries.</li>
+<li>Streamlines dependency management for test-specific modules.</li>
+<li>Automatically integrates with CI/CD pipelines.</li>
+</ul>
+</li>
+<li>
+<p><strong>Cabal</strong>: Offers similar functionality but lacks the simplicity and automation of Stack, making it less suitable for rapid development and testing workflows.</p>
+</li>
+<li>
+<p><strong>External Testing Frameworks</strong>: While tools like <strong>Pytest</strong> or <strong>JUnit</strong> are effective for their respective ecosystems, they are not applicable in a Haskell-based project.</p>
+</li>
+</ul>
+<hr />
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>The <strong>Glados Project</strong> leverages <strong>Haskell</strong> for its robust parsing capabilities, develops an imperative language to cater to developer familiarity, and compiles to <strong>WebAssembly</strong> for portability and performance. This approach ensures that the language is both developer-friendly and technically optimized for modern environments. The choices, supported by comparative analysis, provide a strong foundation for a scalable and maintainable language implementation.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="keywords"><a class="header" href="#keywords">Keywords</a></h1>
+<h1 id="types"><a class="header" href="#types">Types</a></h1>
+<ul>
+<li>Signed Integer: <code>i8</code>, <code>i16</code>, <code>i32</code>, <code>i64</code></li>
+<li>Unsigned Integer: <code>u8</code>, <code>u16</code>, <code>u32</code>, <code>u64</code></li>
+<li>Floating point: <code>f32</code>, <code>f64</code></li>
+<li>Structure: <code>{ }</code></li>
+<li>Array: <code>[ ]</code></li>
+<li>Enum: <code>&lt; &gt;</code></li>
+</ul>
+<h1 id="syntax"><a class="header" href="#syntax">Syntax</a></h1>
+<ul>
+<li>Variable: <code>let</code></li>
+<li>Typing: <code>:</code>, <code>-&gt;</code></li>
+<li>Conditions: <code>if</code> <code>elif</code> <code>else</code></li>
+<li>Loops: <code>while</code></li>
+<li>Qualifiers: <code>mut</code>, <code>*</code></li>
+<li>Functions: <code>fn</code></li>
+<li>Dereference: <code>@</code></li>
+<li>Reference: <code>&amp;</code></li>
+<li>Type Definition: <code>type</code></li>
+</ul>
+<h1 id="exemples"><a class="header" href="#exemples">Exemples</a></h1>
+<h2 id="variables"><a class="header" href="#variables">Variables</a></h2>
+<p>To declare a variable, use the <code>let</code> keyword followed by the variable name, a type, and a value. Typing variables is done using <code>:</code> and a combination of type, type qualifier, and pointer declaration.</p>
+<pre><code class="language-xn">let a: i32 = 42;
+</code></pre>
+<p>All variables are const by default. You'll need to explicitly declare it as mutable with the <code>mut</code> qualifier.</p>
+<pre><code class="language-xn">let a: i32 = 42; // const i32
+let b: mut i32 = 42; // mutable i32
+</code></pre>
+<p>This also applies to pointers:</p>
+<pre><code class="language-xn">let ptr1: *i32 = 42; // pointer to const i32
+let ptr2: *mut i32 = 42; // pointer to mutable i32
+</code></pre>
+<h2 id="pointers"><a class="header" href="#pointers">Pointers</a></h2>
+<p>The syntax for pointers in xenon is similar to C, with one important difference, <strong>Dereferencing pointers is done with <code>@</code></strong></p>
+<pre><code class="language-xn">let a: i32 = 42; // const i32
+let ptr: *i32 = &amp;a; // pointer to a
+let b: i32 = @ptr; // b = 42
+</code></pre>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
+<p>Functions are declared with the <code>fn</code> keyword, followed by the function name, arguments, and return type, defined by <code>-&gt;</code>.</p>
+<pre><code class="language-xn">fn add(a: i32, b: i32) -&gt; i32
+{
+    return a + b;
+}
+</code></pre>
+<h2 id="loops"><a class="header" href="#loops">Loops</a></h2>
+<p>Loops in xenon are limited to while loops.</p>
+<pre><code class="language-xn">let i: mut i32 = 0;
+
+while (i &lt; 10) {
+    i += 1;
+}
+</code></pre>
+<h2 id="conditionals"><a class="header" href="#conditionals">Conditionals</a></h2>
+<p>Conditionnals follow similar patterns than other languages, using if, elif and else keywords.</p>
+<pre><code class="language-xn">let a: i32 = 42;
+
+if (a == 42) {
+    // do something
+} elif (a == 43) {
+    // do something else
+} else {
+    // do something else
+}
+</code></pre>
+<h2 id="structs"><a class="header" href="#structs">Structs</a></h2>
+<p>You can define structs by using brackets and the 'type' keyword, which is used to define a new type like a struct or an enum.</p>
+<pre><code class="language-xn">type Point = {
+    x: i32,
+    y: i32
+};
+
+let p: Point = {1, 2};
+</code></pre>
+<p>Declaring an unammed struct is also possible.</p>
+<pre><code class="language-xn">let p: {x: i32, y: i32} = {1, 2};
+</code></pre>
+<p>As well as accessing struct members like you would with an array.</p>
+<pre><code class="language-xn">let p: {x: i32, y: i32} = {1, 2};
+let x: i32 = p[0]; // x = 1
+let y: i32 = p[1]; // y = 2
+</code></pre>
+<h2 id="enums"><a class="header" href="#enums">Enums</a></h2>
+<p>// TODO :,)</p>
+<h2 id="arrays"><a class="header" href="#arrays">Arrays</a></h2>
+<p>Arrays are declared with the <code>[size: type]</code> syntax.</p>
+<pre><code class="language-xn">let arr: [10: i32] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+</code></pre>
+<p>Two-dimensional arrays (and more) are also possible.</p>
+<pre><code class="language-xn">let tab: [2: [2: i32]] = [[0, 1], [2, 3]];
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
